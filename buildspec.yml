@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - pip install pylint
+      - pip install bandit
+
+  pre_build:
+    commands:
+      - pylint app.py | tee pylint_report.txt
+      - bandit -r app.py | tee bandit_report.txt
+
+  post_build:
+    commands:
+      - echo "Pylint report:"
+      - cat pylint_report.txt
+      - echo "Bandit report:"
+      - cat bandit_report.txt
+
